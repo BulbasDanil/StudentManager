@@ -27,7 +27,15 @@ namespace StudentManager.ViewModels
         public StudentsViewModel()
         {
             _dataManager = new DataManager();
-            Students = _dataManager.Students.ToList();
+            Students = new List<Student>();
+
+            Students.Add(new Student() { Id = 999, Name = "Students" });
+
+            var StudentList = _dataManager.Students.ToList();
+            foreach (Student student in StudentList)
+            {
+                Students.Add(student);
+            }
         }
 
         // CRUD Commands
@@ -41,6 +49,7 @@ namespace StudentManager.ViewModels
               {
                   Student student = new Student()
                   {
+                      Id = 0,
                       Name = "",
                       Surname = "",
                       BirthDate = new System.DateTime(),
@@ -67,12 +76,29 @@ namespace StudentManager.ViewModels
                 return _saveStudentCommand ??
                     (_saveStudentCommand = new RelayCommand(obj =>
                     {
-
+                        var studentsToSave = Students.Where(s => s.Id == 0).ToList();
+                        foreach (var student in studentsToSave)
+                        {
+                            _dataManager.Students.Add(student);
+                        }
+                        _dataManager.SaveChanges();
                     }));
             }
         }
 
-
+        private RelayCommand _removeStudentCommand;
+        public RelayCommand RemoveStudentCommand
+        {
+            get
+            {
+                return _removeStudentCommand ?? (_removeStudentCommand = new RelayCommand(obj =>
+                {
+                    _dataManager.Students.Remove(SelectedStudent);
+                    _dataManager.SaveChanges();
+                }
+                  ));
+            }
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
