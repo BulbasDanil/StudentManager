@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using StudentManager.ViewModels;
+
 namespace StudentManager
 {
     /// <summary>
@@ -20,9 +22,13 @@ namespace StudentManager
     /// </summary>
     public partial class MainWindow : Window
     {
+        public StudentsViewModel svm { get; set; } = new StudentsViewModel();
         public MainWindow()
         {
+            this.DataContext = svm;
             InitializeComponent();
         }
+
+        // Написать здесь обработчик события позор или нет?
     }
 }

@@ -1,7 +1,7 @@
 ﻿using StudentManager.Commands;
 using StudentManager.EDM;
 using StudentManager.Models;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,7 +11,7 @@ namespace StudentManager.ViewModels
     public class StudentsViewModel : INotifyPropertyChanged
     {
         private DataManager _dataManager;
-        public List<Student> Students { get; set; }
+        public ObservableCollection<Student> Students { get; set; }
 
         private Student _selectedStudent { get; set; }
         public Student SelectedStudent
@@ -27,9 +27,7 @@ namespace StudentManager.ViewModels
         public StudentsViewModel()
         {
             _dataManager = new DataManager();
-            Students = new List<Student>();
-
-            Students.Add(new Student() { Id = 999, Name = "Students" });
+            Students = new ObservableCollection<Student>();
 
             var StudentList = _dataManager.Students.ToList();
             foreach (Student student in StudentList)
@@ -50,19 +48,18 @@ namespace StudentManager.ViewModels
                   Student student = new Student()
                   {
                       Id = 0,
-                      Name = "",
-                      Surname = "",
+                      Name = "New student name",
+                      Surname = "New student surname",
                       BirthDate = new System.DateTime(),
                       EnrollmentYear = new System.DateTime(),
                       Phone = "",
                       Email = "",
                       Adress = "",
-                      GroupId = 0,
+                      GroupId = SelectedStudent.GroupId,
                       IsElder = false,
 
                   };
                   Students.Add(student);
-                  _dataManager.SaveChanges();
                   SelectedStudent = student;
               }));
             }
@@ -93,8 +90,12 @@ namespace StudentManager.ViewModels
             {
                 return _removeStudentCommand ?? (_removeStudentCommand = new RelayCommand(obj =>
                 {
-                    _dataManager.Students.Remove(SelectedStudent);
-                    _dataManager.SaveChanges();
+                    if (SelectedStudent.Id != 0)
+                    {
+                        _dataManager.Students.Remove(SelectedStudent);
+                        _dataManager.SaveChanges();
+                    }
+                    Students.Remove(SelectedStudent);
                 }
                   ));
             }
@@ -106,6 +107,11 @@ namespace StudentManager.ViewModels
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+
+        public Group getSelectedGroup()
+        {
+            return _dataManager.Groups.Where(g => g.Id == SelectedStudent.GroupId).FirstOrDefault();
         }
     }
 }
