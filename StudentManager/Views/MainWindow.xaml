@@ -14,7 +14,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="Bahnschrift light"
         
-        Title="MainWindow" Height="450" Width="800">
+        Title="Student Manager" Height="450" Width="800" Icon="/Views/favicon.ico">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -62,10 +62,10 @@
             <TextBox Text="{Binding SelectedStudent.Surname}" Grid.Column="1" Grid.Row="1"/> 
             
             <Label Content="Birthday:" Grid.Row="2"/>
-            <TextBox Text="{Binding SelectedStudent.BirthDate}" Grid.Column="1" Grid.Row="2" Cursor="IBeam"/>
+            <DatePicker Text="{Binding SelectedStudent.BirthDate}" Grid.Column="1" Grid.Row="2" Cursor="IBeam"/>
 
-            <Label Content="Entry Year:" Grid.Row="3"/>
-            <TextBox Text="{Binding SelectedStudent.EnrollmentYear}" Grid.Column="1" Grid.Row="3"/>
+            <Label Content="Entry Date:" Grid.Row="3"/>
+            <DatePicker Text="{Binding SelectedStudent.EnrollmentYear}" Grid.Column="1" Grid.Row="3"/>
 
             <Label Content="Email:" Grid.Row="4"/>
             <TextBox Text="{Binding SelectedStudent.Email}" Grid.Column="1" Grid.Row="4"/>

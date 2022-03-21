@@ -17,6 +17,7 @@ namespace StudentManager.ViewModels
         public Student SelectedStudent
         {
             get { return _selectedStudent; }
+
             set
             {
                 _selectedStudent = value;
@@ -50,8 +51,8 @@ namespace StudentManager.ViewModels
                       Id = 0,
                       Name = "New student name",
                       Surname = "New student surname",
-                      BirthDate = new System.DateTime(),
-                      EnrollmentYear = new System.DateTime(),
+                      BirthDate = new System.DateTime().Date,
+                      EnrollmentYear = new System.DateTime().Date,
                       Phone = "",
                       Email = "",
                       Adress = "",
